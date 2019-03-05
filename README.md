@@ -1,0 +1,2 @@
+# uitest_sample_android
+espresso_com_example_myapplication
