@@ -88,5 +88,4 @@ jobs:
             sudo gsutil -m cp -r -U gs://cloud-test-${GOOGLE_PROJECT_ID}/${BK_OBJ_NAME} reports/UITest | true
       - store_artifacts:
           path: reports/UITest
-          destination: reports/UITest
-
+          destination: reports/tests/UiTest
