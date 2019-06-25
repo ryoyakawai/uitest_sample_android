@@ -42,10 +42,10 @@ jobs:
             ./gradlew :app:assembleDebugAndroidTest
       - store_artifacts:
           path: ./app/build/outputs/apk/debug/app-debug.apk
-          destination: /app-debug.apk
+          destination: /apks/app-debug.apk
       - store_artifacts:
-          path: ./app/build/outputs/apk/debug/app-debug-androidTest.apk
-          destination: /app-debug-androidTest.apk
+          path: ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+          destination: /apks/app-debug-androidTest.apk
       #- run:
       #    name: Deploy to DeployGate
       #    command: curl -F "file=@app/build/outputs/apk/debug/app-debug.apk" -F "token=${DEPLOY_GATE_API_KEY}" -F "message=circleci" https://deploygate.com/api/users/hogehoge/apps
@@ -78,12 +78,11 @@ jobs:
               --results-dir $BK_OBJ_NAME \
               --results-bucket cloud-test-${GOOGLE_PROJECT_ID} \
               --device model=Pixel2,version=26,locale=en_US,orientation=portrait \
-              --environment-variables coverage=true,coverageFile=/sdcard/tmp/code-coverage/connected/coverage.ec \
+              --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec \
               --timeout 120s
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
-            mkdir -p reports/UITest
             sudo pip install -U crcmod
             sudo gsutil -m cp -r -U gs://cloud-test-${GOOGLE_PROJECT_ID}/${BK_OBJ_NAME} reports/UITest | true
       - store_artifacts:
