@@ -74,7 +74,7 @@ jobs:
               --type instrumentation \
               --app ./app/build/outputs/apk/debug/app-debug.apk \
               --test ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-              --test-targets "class com.example.myapplication.MainActivity" \
+              --test-targets "class com.example.myapplicationtest.ExampleInstrumentedTest" \
               --results-dir $BK_OBJ_NAME \
               --results-bucket cloud-test-${GOOGLE_PROJECT_ID} \
               --device model=Pixel2,version=26,locale=en_US,orientation=portrait \

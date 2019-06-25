@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplicationtest
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
