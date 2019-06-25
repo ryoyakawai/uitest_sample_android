@@ -83,6 +83,7 @@ jobs:
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
+            mkdir -p reports/tests/UiTest
             sudo pip install -U crcmod
             sudo gsutil -m cp -r -U gs://cloud-test-${GOOGLE_PROJECT_ID}/${BK_OBJ_NAME} reports/UITest | true
       - store_artifacts:
