@@ -13,6 +13,8 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 import android.support.test.filters.LargeTest
+import com.example.myapplication.MainActivity
+import com.example.myapplication.R
 import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 
@@ -39,7 +41,7 @@ class ExampleInstrumentedTest {
     }
 
     @Test
-    fun checkTexthelloWorld() {
+    fun checkTextHelloWorld() {
         onView(withId(R.id.main_content_text)).check(matches(withText("Hello World!")))
         Thread.sleep(500)
     }
