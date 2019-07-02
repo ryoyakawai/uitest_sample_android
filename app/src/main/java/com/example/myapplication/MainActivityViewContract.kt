@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.view.Menu
 import android.view.View
+import com.example.myapplication.api.response.SinglePostResponse
 
 interface MainActivityViewContract {
 
@@ -12,4 +13,8 @@ interface MainActivityViewContract {
     fun handleOkButton(view: View)
 
     fun restCounter()
+
+    fun handleSuccess(result: Array<SinglePostResponse>)
+
+    fun handleError(message: String)
 }

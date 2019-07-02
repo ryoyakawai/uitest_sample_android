@@ -22,7 +22,12 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven {
+            url 'https://maven.google.com/'
+        }
+    }
+    tasks.matching {it instanceof Test}.all {
+        testLogging.events = ["failed", "passed", "skipped"]
     }
 }
 

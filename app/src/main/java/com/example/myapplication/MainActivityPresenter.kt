@@ -26,22 +26,30 @@ class MainActivityPresenter : MainActivityPresenterContract {
     }
 
     override fun getJsonSampleResponse() {
-        val disposable: Disposable = mModel!!.sampleResponse()
+        val disposable: Disposable = mModel!!.getPostsById(1)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ ResCommentsPostId1: Array<SinglePostResponse> ->
+            .subscribe({ ResCommentsPostId: Array<SinglePostResponse> ->
                 mView?.let {
-                    for(item in ResCommentsPostId1) {
-                        Log.d(">>>> JSON >>>>", item.postId.toString())
-                        Log.d(">>>> JSON >>>>", item.id.toString())
-                        Log.d(">>>> JSON >>>>", item.name)
-                        Log.d(">>>> JSON >>>>", item.email)
-                        Log.d(">>>> JSON >>>>", item.body)
+                    for(item in ResCommentsPostId) {
+                        //Log.d(">>>> JSON >>>>", item.toString())
+                        val javaClass = item::class.java
+                        javaClass.declaredFields.forEach { field ->
+                            field.isAccessible = true
+                            Log.d(" !!!! >>>> JSON >>>>", field.name + ":" + field.get(item))
+                        }
                     }
+
+
+                    it.handleSuccess(ResCommentsPostId)
                 }
-            }, { _: Throwable ->
-                mView?.let {
-                    Log.e(">>>> JSON >>>>", "ERROR")
+            }, { error: Throwable ->
+                error.message.let {
+                    if (it != null) {
+                        mView?.handleError(it)
+                    } else {
+                        mView?.handleError("Something Went Wrong.")
+                    }
                 }
             })
             mDisposable.add(disposable)

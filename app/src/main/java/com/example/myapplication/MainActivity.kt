@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.util.Log
+import com.example.myapplication.api.response.SinglePostResponse
 
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -81,6 +82,19 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
 
     override fun restCounter() {
         counter = 0
+    }
+
+    override fun handleSuccess(result: Array<SinglePostResponse>) {
+        Log.d(">>>> JSON >>>>", result.toString())
+        Log.d(">>>> JSON >>>>", "SUCCESS")
+    }
+
+
+
+
+    override fun handleError(message: String) {
+        Log.e(">>>> JSON >>>>", message)
+        Log.e(">>>> JSON >>>>", "ERROR")
     }
 
 }

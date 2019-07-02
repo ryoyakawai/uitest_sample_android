@@ -16,15 +16,8 @@ class MainActivityInteractor {
         return jsonObject
     }
 
-    fun sampleResponse() : Single<Array<SinglePostResponse>> {
+    fun getPostsById(postId: Int) : Single<Array<SinglePostResponse>> {
         val mApiConnection: ApiConnection = APIClient.mApiConnection!!
-        return mApiConnection.commentPostId1(1)
-/*
-        val jsonObject= JSONObject()
-        jsonObject.put("userId", "1")
-        jsonObject.put("id", "2")
-        jsonObject.put("success", "true")
-        return jsonObject
- */
+        return mApiConnection.commentByPostId(postId)
     }
 }

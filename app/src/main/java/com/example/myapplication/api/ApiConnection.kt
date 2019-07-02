@@ -13,6 +13,6 @@ interface ApiConnection {
         "Content-type: application/json"
     )
     @GET("comments")
-    fun commentPostId1(@Query("postId") postId: Int): Single<Array<SinglePostResponse>>
+    fun commentByPostId(@Query("postId") postId: Int): Single<Array<SinglePostResponse>>
 
 }
