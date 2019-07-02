@@ -16,6 +16,7 @@ import android.support.test.filters.LargeTest
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
 import org.junit.Rule
 
 
@@ -42,15 +43,15 @@ class ExampleInstrumentedTest {
 
     @Test
     fun checkTextHelloWorld() {
-        onView(withId(R.id.main_content_text)).check(matches(withText("Hello World!")))
+        onView(withId(R.id.main_content_text)).check(matches(withText(containsString("Hello World!"))))
         Thread.sleep(500)
     }
 
     @Test
     fun checkButtonEmailFloating() {
-        onView(withId(R.id.email_fab_text)).check(matches(withText("OK")))
+        onView(withId(R.id.email_fab_text)).check(matches(withText("+")))
         onView(withId(R.id.email_fab)).perform(click())
-        onView(allOf(withId(android.support.design.R.id.snackbar_text), withText("Replace with your own action")))
+        onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(containsString("Tapped"))))
             .check(matches(isDisplayed()))
         Thread.sleep(500)
     }
