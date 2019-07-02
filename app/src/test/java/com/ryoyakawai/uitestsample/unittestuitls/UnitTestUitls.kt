@@ -41,13 +41,15 @@ class UnitTestUtils {
         return retrofit.create(ApiConnection::class.java)
     }
 
-    fun assertDataClass(expected: Any, actual: Any) {
+    fun assertDataClass(expected: Any, actual: Any, debug:Boolean = false) {
         val javaClass = expected::class.java
         javaClass.declaredFields.forEach { field ->
             field.isAccessible = true
-            //System.out.println("[" + field.name + "]")
-            //System.out.println("    >>>>   actual=[" + field.get(actual) + "]")
-            //System.out.println("    >>>> expected=[" + field.get(expected) + "]")
+            if(debug) {
+                System.out.println("[" + field.name + "]")
+                System.out.println("    >>>>   actual=[" + field.get(actual) + "]")
+                System.out.println("    >>>> expected=[" + field.get(expected) + "]")
+            }
             Assert.assertEquals(field.get(expected), field.get(actual))
         }
     }
