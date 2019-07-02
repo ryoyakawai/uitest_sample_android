@@ -33,13 +33,13 @@
                 android:src="@android:color/transparent" app:useCompatPadding="true"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@android:string/ok"
-            android:elevation="16dp"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="16dp"
+                android:text="+"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white" />
     </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

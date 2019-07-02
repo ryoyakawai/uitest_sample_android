@@ -57,7 +57,7 @@ internal class MockServerDispatcher {
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class MainActivityUnitTest {
     var mMockTestUtils = UnitTestUtils()
 
     @Test

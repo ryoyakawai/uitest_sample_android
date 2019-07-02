@@ -27,11 +27,14 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        updateMainContentText("Hello World!!")
+
         email_fab.setOnClickListener { view ->
             counter += 1
-            updateMainContentText("Hello World!! ($counter)")
+            updateMainContentText("$counter")
 
             handleOkButton(view)
+
             val json = mPresenter!!.getSimpleJsonSampleResponse()
             Log.d("JSON_OUT", json.getString("userId") )
             Log.d("JSON_OUT", json.getString("id") )
@@ -46,7 +49,6 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
         // Inflate the menu; this adds items to the action bar if it is present.
         createFloatMenu(R.menu.menu_main, menu)
         //menuInflater.inflate(R.menu.menu_main, menu)
-        updateMainContentText("Hello World!! ($counter)")
         return true
     }
 
@@ -57,7 +59,7 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
         return when (item.itemId) {
             R.id.action_reset_counter -> {
                 restCounter()
-                updateMainContentText("Hello World!! ($counter)")
+                updateMainContentText("$counter")
                 return true
             }
             else -> {
