@@ -21,8 +21,14 @@ In short:
 
 ### Run Test on CLI
 At No.3 in the list above, CLI can be the alternatice way to run the Test.
+
+#### Instrumented Test
 ```bash
 $ ./gradlew connectedAndroidTest
+```
+#### Unit Test
+```bash
+$ ./gradlew test
 ```
 
 However, this way does not always easy for all of developers. So, to get more information about to run on CLI in detail please refer to this page depending on your interest.
