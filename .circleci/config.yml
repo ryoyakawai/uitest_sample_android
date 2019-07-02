@@ -46,8 +46,8 @@ jobs:
       - store_artifacts:
           path: ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
           destination: /apks/app-debug-androidTest.apk
-      - run: Deploy to DeployGate
-          name: Upload to DeployGate # Set DEPLOYGATE_API_KEY in CircleCI
+      - run:
+          name: Upload to DeployGate
           command: |
             APK_PATH=app/build/outputs/apk/debug/app-debug.apk
             TIME=$(date "+%Y/%m/%d %H:%M")
