@@ -6,6 +6,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+
 jacoco {
     toolVersion = "$jacocoVersion"
 }
