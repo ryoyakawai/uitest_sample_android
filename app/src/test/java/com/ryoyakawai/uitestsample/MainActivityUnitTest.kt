@@ -124,9 +124,4 @@ class MainActivityUnitTest {
         }
         mMockTestUtils.shutdownMockServer()
     }
-
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
 }
