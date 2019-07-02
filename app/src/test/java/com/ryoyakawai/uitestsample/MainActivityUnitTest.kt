@@ -93,14 +93,6 @@ class MainActivityUnitTest {
                 val expected = expectedResponse[i]
                 val actual = this.firstValue[i]
                 mMockTestUtils.assertDataClass(expected, actual)
-/*
-                val javaClass = item::class.java
-                javaClass.declaredFields.forEach { field ->
-                    field.isAccessible = true
-                    System.out.println(field.name + ":" + field.get(item))
-                    System.out.println(field.name + ":" + field.get(actual))
-                }
-*/
             }
 
         }
@@ -127,7 +119,6 @@ class MainActivityUnitTest {
 
         mMainActivityPresenter.getJsonSampleResponse()
         argumentCaptor<String>().apply {
-            //assertEquals("HTTP 500 Server Error", this.firstValue)
             verify(mMainActivityViewContract, times(1)).handleError(capture())
             assertEquals("HTTP 500 Server Error", this.firstValue)
         }
