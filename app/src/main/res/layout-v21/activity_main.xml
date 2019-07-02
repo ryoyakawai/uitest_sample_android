@@ -39,7 +39,7 @@
                 android:text="+"
                 android:elevation="16dp"
                 android:textColor="@android:color/white"
-                android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/email_fab_text"/>
+                android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/increment_fab_text"/>
     </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
