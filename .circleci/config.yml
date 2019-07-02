@@ -46,9 +46,14 @@ jobs:
       - store_artifacts:
           path: ./app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
           destination: /apks/app-debug-androidTest.apk
-      - run:
-          name: Deploy to DeployGate
-          command: curl -F "file=@app/build/outputs/apk/debug/app-debug.apk" -F "token=${DEPLOYGATE_API_KEY}" -F "message=circleci" https://deploygate.com/api/ryoyakawai/uitest_sample_android/apps
+      - run: Deploy to DeployGate
+        name: Upload to DeployGate # Set DEPLOYGATE_API_KEY in CircleCI
+        command: |
+          APK_PATH=app/build/outputs/apk/debug/app-debug.apk
+          TIME=$(date "+%Y/%m/%d %H:%M")
+          COMMIT_HASH=$(git log --format="%H" -n 1 | cut -c 1-8)
+          USERNAME=ryoyakawai
+          curl -F "file=@${APK_PATH}" -F "token=${DEPLOYGATE_API_KEY}" -F "message=Build by CircleCI <${COMMIT_HASH}> (${TIME})" https://deploygate.com/api/users/${USERNAME}/apps
       # >> [See more device info with this command] $ gcloud firebase test android models list;
       # >> [Aboud CLI] https://firebase.google.com/docs/test-lab/android/command-line
       # !!!!! NOTICE !!!!!
