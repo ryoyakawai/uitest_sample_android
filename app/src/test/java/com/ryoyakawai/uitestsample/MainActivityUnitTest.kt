@@ -53,9 +53,7 @@ internal class MockServerDispatcher {
 }
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * [testing documentation] http://d.android.com/tools/testing.
  */
 class MainActivityUnitTest {
     var mMockTestUtils = UnitTestUtils()
