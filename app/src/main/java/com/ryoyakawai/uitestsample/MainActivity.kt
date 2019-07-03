@@ -10,13 +10,13 @@ import android.widget.TextView
 import android.util.Log
 import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
 
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainActivityViewContract {
 
     private var mPresenter: MainActivityPresenterContract? = null
     private var counter: Int = 0
+    private var TAG = "UITESTSAMPLEMainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,16 +87,13 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
     }
 
     override fun handleSuccess(result: Array<SinglePostResponse>) {
-        Log.d(">>>> JSON >>>>", result.toString())
-        Log.d(">>>> JSON >>>>", "SUCCESS")
+        Log.d(TAG, result.toString())
+        Log.d(TAG, "SUCCESS")
     }
 
-
-
-
     override fun handleError(message: String) {
-        Log.e(">>>> JSON >>>>", message)
-        Log.e(">>>> JSON >>>>", "ERROR")
+        Log.e(TAG, message)
+        Log.e(TAG, "ERROR")
     }
 
 }
