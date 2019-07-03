@@ -52,24 +52,22 @@ class MainActivityInstrumentedTest {
     fun checkButtonIncrementFloating() {
         //
         // To check initial counter
-        val actualCount00 = mUT.getText(withId(R.id.main_content_text))
-        mUT.log_d("[Counter initial] 🍏 expected=[Hello World!!] actual=[$actualCount00]")
-        assertEquals("[Counter initial] 🍏", "Hello World!!", actualCount00)
+        var actualCount = mUT.getText(withId(R.id.main_content_text))
+        mUT.log_d("[Counter initial] 🍏 expected=[Hello World!!] actual=[$actualCount]")
+        assertEquals("[Counter initial] 🍏", "Hello World!!", actualCount)
 
         //
         // To check whether increment button works properly
         val willTap = 5
+        val incrementButton =  withId(R.id.increment_fab_text)
+
         for(i in 1..willTap) {
-            val incrementButton =  withId(R.id.increment_fab_text)
-            onView(incrementButton).check(matches(withText("+")))
+            // Tap increment button
             onView(incrementButton).perform(click())
 
-            onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(containsString("Tapped"))))
-                .check(matches(isDisplayed()))
-
-            var counter00 = mUT.getText(withId(R.id.main_content_text))
-            mUT.log_d("[Counter SEQ] 🍏🍎 expected=[$i] actual=[$counter00]")
-            assertEquals("[Counter SEQ] 🍏🍎", i.toString(), counter00)
+            actualCount = mUT.getText(withId(R.id.main_content_text))
+            mUT.log_d("[Counter SEQ] 🍏🍎 expected=[$i] actual=[$actualCount]")
+            assertEquals("[Counter SEQ] 🍏🍎", i.toString(), actualCount)
 
             // Wait for snack bar disappears
             val snackBarTapped = allOf(withId(android.support.design.R.id.snackbar_text), withText(containsString("Tapped")))
@@ -88,9 +86,9 @@ class MainActivityInstrumentedTest {
                 isDisplayed())
         onView(menuButton).perform(click())
         mUT.sleep("SHR")
-        val actualCount01 = mUT.getText(withId(R.id.main_content_text))
-        mUT.log_d("[Counter Clear] 🍏🍎🍐 expected=[0] actual=[$actualCount01]")
-        assertEquals("[Counter Clear] 🍏🍎🍐", actualCount01, "0")
+        actualCount = mUT.getText(withId(R.id.main_content_text))
+        mUT.log_d("[Counter Clear] 🍏🍎🍐 expected=[0] actual=[$actualCount]")
+        assertEquals("[Counter Clear] 🍏🍎🍐", actualCount, "0")
     }
 
     private fun waitForSnackbarDisappear(targetMatcher: Matcher<View>) {
