@@ -1,5 +1,8 @@
 package com.ryoyakawai.uitestsample
 
+import android.content.Intent
+import android.os.Build
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.UiController
 import android.support.test.espresso.ViewAction
@@ -9,12 +12,28 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.MatcherAssert
 import org.hamcrest.TypeSafeMatcher
+import org.hamcrest.core.IsNull
 import kotlin.random.Random
+import androidx.test.uiautomator.UiObjectNotFoundException
+import androidx.test.uiautomator.UiSelector
+import androidx.test.uiautomator.Until.findObject
+import androidx.test.uiautomator.UiObject
+import android.os.Build.VERSION
+import android.os.Build.VERSION.SDK_INT
+
+
 
 class UiTestUtils {
+
+    lateinit var mDevice: UiDevice
+    private val LAUNCHTIMEOUT = 5000L
 
     private val msgTAG = "[MSG] <<📋🖌 UI TEST 🔎✔️>>"
 
@@ -23,6 +42,49 @@ class UiTestUtils {
 
     init {
         log_d("[Begin Test] 👉 " + randomString(10))
+    }
+
+    fun getDevice(): UiDevice  {
+        return mDevice
+    }
+
+    fun launchApp(packageName: String) {
+        // Initialize Device
+        mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+
+        // Tap Home Button of Android
+        mDevice.pressHome()
+
+        // Wait 5sec after Launching
+        val launcherPackage = mDevice.launcherPackageName
+        log_d("packageName=[$launcherPackage]")
+        MatcherAssert.assertThat(launcherPackage, IsNull.notNullValue())
+        mDevice.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), LAUNCHTIMEOUT)
+
+        // Launch App
+        val context = InstrumentationRegistry.getContext()
+        val intent = context.packageManager
+            .getLaunchIntentForPackage(packageName)
+        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        context.startActivity(intent)
+
+        // Wait for defined duration as LAUNCHTIMEOUT
+        mDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), LAUNCHTIMEOUT)
+
+    }
+
+    fun allowPermissionsIfNeeded() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            val allowPermissions = mDevice.findObject(UiSelector().text("Allow"))
+            if (allowPermissions.exists()) {
+                try {
+                    allowPermissions.click()
+                } catch (e: UiObjectNotFoundException) {
+                    log_d(" 👍")
+                }
+
+            }
+        }
     }
 
     fun randomString(length: Int): String {

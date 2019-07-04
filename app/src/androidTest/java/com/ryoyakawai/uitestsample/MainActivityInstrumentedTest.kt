@@ -1,8 +1,8 @@
 package com.ryoyakawai.uitestsample
 
 import android.support.test.InstrumentationRegistry
+import android.support.test.InstrumentationRegistry.getTargetContext
 import android.support.test.espresso.Espresso
-import android.support.test.rule.ActivityTestRule
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.NoMatchingViewException
 import android.support.test.espresso.action.ViewActions.click
@@ -15,11 +15,15 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 import android.support.test.filters.LargeTest
+import android.support.test.filters.SdkSuppress
 import android.view.View
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
-import org.junit.Rule
+import org.junit.After
+import org.junit.Before
+import androidx.test.uiautomator.UiDevice
+
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -27,33 +31,44 @@ import org.junit.Rule
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
+@SdkSuppress(minSdkVersion = 26)
 @LargeTest
 class MainActivityInstrumentedTest {
-    @Rule
-    @JvmField
-    var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
-    var mUT = UiTestUtils()
+
+    private val _packageName = "com.ryoyakawai.uitestsample"
+    private lateinit var mUTs: UiTestUtils
+    private lateinit var mDevice: UiDevice
+
+    @Before
+    fun setup() {
+        this.mUTs = UiTestUtils()
+        this.mUTs.launchApp(_packageName)
+        this.mDevice = this.mUTs.getDevice()
+    }
+
+    @After
+    fun teardown() { }
 
     @Test
     fun useAppContext() {
         // Context of the app under test.
-        val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.ryoyakawai.uitestsample", appContext.packageName)
-        mUT.sleep("SHR")
+        val appContext = getTargetContext()
+        assertEquals(_packageName, appContext.packageName)
+        this.mUTs.sleep("SHR")
     }
 
     @Test
     fun checkTextHelloWorld() {
         onView(withId(R.id.main_content_text)).check(matches(withText(containsString("Hello World!"))))
-        mUT.sleep("SHR")
+        this.mUTs.sleep("SHR")
     }
 
     @Test
     fun checkButtonIncrementFloating() {
         //
         // To check initial counter
-        var actualCount = mUT.getText(withId(R.id.main_content_text))
-        mUT.log_d("[Counter initial] 🍏 expected=[Hello World!!] actual=[$actualCount]")
+        var actualCount = this.mUTs.getText(withId(R.id.main_content_text))
+        this.mUTs.log_d("[Counter initial] 🍏 expected=[Hello World!!] actual=[$actualCount]")
         assertEquals("[Counter initial] 🍏", "Hello World!!", actualCount)
 
         //
@@ -65,29 +80,30 @@ class MainActivityInstrumentedTest {
             // Tap increment button
             onView(incrementButton).perform(click())
 
-            actualCount = mUT.getText(withId(R.id.main_content_text))
-            mUT.log_d("[Counter SEQ] 🍏🍎 expected=[$i] actual=[$actualCount]")
+            actualCount = this.mUTs.getText(withId(R.id.main_content_text))
+            this.mUTs.log_d("[Counter SEQ] 🍏🍎 expected=[$i] actual=[$actualCount]")
             assertEquals("[Counter SEQ] 🍏🍎", i.toString(), actualCount)
 
             // Wait for snack bar disappears
-            val snackBarTapped = allOf(withId(android.support.design.R.id.snackbar_text), withText(containsString("Tapped")))
+            //val snackBarTapped = allOf(withId(android.support.design.R.id.snackbar_text), withText(containsString("Tapped")))
+            val snackBarTapped = allOf(withId(android.support.design.R.id.snackbar_text), withText("Tapped $i times."))
             waitForSnackbarDisappear(snackBarTapped)
-            mUT.sleep("SHR")
+            this.mUTs.sleep("SHR")
         }
-        mUT.sleep("SHR")
+        this.mUTs.sleep("SHR")
 
         //
         // To check whether reset counter button works properly
         Espresso.openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        mUT.sleep("SHR")
+        this.mUTs.sleep("SHR")
         val menuButton = allOf(
                 withId(R.id.title), withText("Reset Counter"),
-                mUT.cAP(mUT.cAP(withId(R.id.content), 0),0),
+                this.mUTs.cAP(this.mUTs.cAP(withId(R.id.content), 0),0),
                 isDisplayed())
         onView(menuButton).perform(click())
-        mUT.sleep("SHR")
-        actualCount = mUT.getText(withId(R.id.main_content_text))
-        mUT.log_d("[Counter Clear] 🍏🍎🍐 expected=[0] actual=[$actualCount]")
+        this.mUTs.sleep("SHR")
+        actualCount = this.mUTs.getText(withId(R.id.main_content_text))
+        this.mUTs.log_d("[Counter Clear] 🍏🍎🍐 expected=[0] actual=[$actualCount]")
         assertEquals("[Counter Clear] 🍏🍎🍐", actualCount, "0")
     }
 
@@ -96,7 +112,7 @@ class MainActivityInstrumentedTest {
         while(doLoop) {
             try {
                 onView(targetMatcher).check(matches(isDisplayed()))
-                mUT.sleep("SHR")
+                this.mUTs.sleep("SHR")
             } catch(e: NoMatchingViewException) {
                 doLoop = false
             }
