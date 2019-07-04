@@ -1,6 +1,7 @@
 package com.ryoyakawai.uitestsample
 
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu
@@ -8,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.util.Log
+import android.widget.Button
 import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,26 +18,27 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
 
     private var mPresenter: MainActivityPresenterContract? = null
     private var counter: Int = 0
-    private var TAG = "UITESTSAMPLEMainActivity"
+    val TAG = "UITestSampleMainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mPresenter = MainActivityPresenter()
-        mPresenter!!.setView(this)
+        this.mPresenter = MainActivityPresenter()
+        this.mPresenter!!.setView(this)
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
         updateMainContentText("Hello World!!")
 
-        email_fab.setOnClickListener { view ->
-            counter += 1
-            updateMainContentText("$counter")
+        val emailFab: FloatingActionButton = findViewById(R.id.email_fab)
+        emailFab.setOnClickListener { view ->
+            this.counter += 1
+            updateMainContentText("${this.counter}")
 
             handleOkButton(view)
 
-            val json = mPresenter!!.getSimpleJsonSampleResponse()
+            val json = this.mPresenter!!.getSimpleJsonSampleResponse()
             Log.d("JSON_OUT", json.getString("userId") )
             Log.d("JSON_OUT", json.getString("id") )
             Log.d("JSON_OUT", json.getString("success") )
@@ -59,11 +62,11 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
         return when (item.itemId) {
             R.id.action_reset_counter -> {
                 restCounter()
-                updateMainContentText("$counter")
-                return true
+                updateMainContentText("$this.counter")
+                true
             }
             else -> {
-                return super.onOptionsItemSelected(item)
+                super.onOptionsItemSelected(item)
             }
         }
     }
@@ -78,12 +81,12 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
     }
 
     override fun handleOkButton(view: View) {
-        Snackbar.make(view, "Tapped $counter times.", Snackbar.LENGTH_SHORT)
+        Snackbar.make(view, "Tapped $this.counter times.", Snackbar.LENGTH_SHORT)
             .setAction("Action", null).show()
     }
 
     override fun restCounter() {
-        counter = 0
+        this.counter = 0
     }
 
     override fun handleSuccess(result: Array<SinglePostResponse>) {
