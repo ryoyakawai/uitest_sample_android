@@ -76,6 +76,7 @@ jobs:
               --results-bucket cloud-test-${GOOGLE_PROJECT_ID} \
               --device model=Pixel2,version=26,locale=en_US,orientation=portrait \
               --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec \
+              --use-orchestrator \
               --timeout 120s
       - run:
           name: Install gsutil dependency and copy test results data
