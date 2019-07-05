@@ -15,7 +15,7 @@ class MainActivityPresenter : MainActivityPresenterContract {
     private var mView: MainActivityViewContract? = null
     private var mModel: MainActivityInteractor? = null
     private val mDisposable = CompositeDisposable()
-    val TAG = "UITestSampleMainActivityPresenter"
+    private val tTAG = "UITestSampleMainActivityPresenter"
 
     init {
         mModel = MainActivityInteractor()
@@ -36,7 +36,7 @@ class MainActivityPresenter : MainActivityPresenterContract {
                             val javaClass = item::class.java
                             javaClass.declaredFields.forEach { field ->
                                 field.isAccessible = true
-                                Log.d(TAG, field.name + ":" + field.get(item))
+                                Log.d(tTAG, field.name + ":" + field.get(item))
                             }
                         }
                         it.handleSuccess(ResCommentsPostId)

@@ -1,10 +1,10 @@
 package com.ryoyakawai.uitestsample
 
-import com.ryoyakawai.uitestsample.UnitTestUtils.*
 import com.ryoyakawai.uitestsample.api.APIClient.setConnection
 import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
 import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.*
+import com.ryoyakawai.uitestsample.unittestuitls.UnitTestUtils
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
@@ -13,7 +13,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 internal class MockServerDispatcher {
-    // Array<SinglePostResponse>
     val mockedResponse = arrayOf(
         SinglePostResponse(
             0,
@@ -30,7 +29,7 @@ internal class MockServerDispatcher {
             "body01"
         )
     )
-    internal inner class sample00 : Dispatcher() {
+    internal inner class Resp200 : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
             return MockResponse()
                 .setResponseCode(200)
@@ -60,7 +59,7 @@ class MainActivityUnitTest {
     @Test
     fun sampleUnitDataFetchSuccessTest() {
         mMockTestUtils.mockServerBehaviorSwitcher = {
-            MockServerDispatcher().sample00()
+            MockServerDispatcher().Resp200()
         }
         val expectedResponse = MockServerDispatcher().mockedResponse
 
@@ -69,8 +68,7 @@ class MainActivityUnitTest {
 
         mMainActivityPresenter.setView(mMainActivityViewContract)
 
-        mMockTestUtils.resetRx()
-        mMockTestUtils.switchToTrampolineScheduler()
+        mMockTestUtils.prepareRxForTesting()
 
         mMockTestUtils.startMockServer()
         var mApiConnection = mMockTestUtils.setupMockServer()
@@ -107,8 +105,7 @@ class MainActivityUnitTest {
 
         mMainActivityPresenter.setView(mMainActivityViewContract)
 
-        mMockTestUtils.resetRx()
-        mMockTestUtils.switchToTrampolineScheduler()
+        mMockTestUtils.prepareRxForTesting()
 
         mMockTestUtils.startMockServer()
         var mApiConnection = mMockTestUtils.setupMockServer()
@@ -133,8 +130,7 @@ class MainActivityUnitTest {
 
         mMainActivityPresenter.setView(mMainActivityViewContract)
 
-        mMockTestUtils.resetRx()
-        mMockTestUtils.switchToTrampolineScheduler()
+        mMockTestUtils.prepareRxForTesting()
 
         mMockTestUtils.startMockServer()
         var mApiConnection = mMockTestUtils.setupMockServer()

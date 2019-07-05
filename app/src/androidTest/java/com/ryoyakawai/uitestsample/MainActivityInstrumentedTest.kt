@@ -23,7 +23,7 @@ import org.hamcrest.Matchers.containsString
 import org.junit.After
 import org.junit.Before
 import androidx.test.uiautomator.UiDevice
-
+import com.ryoyakawai.uitestsample.uitestutils.UiTestUtils
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -79,6 +79,8 @@ class MainActivityInstrumentedTest {
         for(i in 1..willTap) {
             // Tap increment button
             onView(incrementButton).perform(click())
+
+            mUTs.allowPermissionsIfNeeded()
 
             actualCount = this.mUTs.getText(withId(R.id.main_content_text))
             this.mUTs.log_d("[Counter SEQ] 🍏🍎 expected=[$i] actual=[$actualCount]")

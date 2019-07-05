@@ -1,24 +1,30 @@
 package com.ryoyakawai.uitestsample
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.util.Log
-import android.widget.Button
 import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
 
 import kotlinx.android.synthetic.main.activity_main.*
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity(), MainActivityViewContract {
 
     private var mPresenter: MainActivityPresenterContract? = null
     private var counter: Int = 0
-    val TAG = "UITestSampleMainActivity"
+    private val tTAG = "UITestSampleMainActivity"
+    private val reqCodeWriteExternalStorage = 123
+    private var permissionGrantedBehavior: ((activity: MainActivity) -> Unit) = {}
+    private var permissionDeniedBehavior: ((activity: MainActivity) -> Unit ) = {}
+    private var permissionUndefinedBehavior: ((activity: MainActivity) -> Unit ) = {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,18 +39,37 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
 
         val emailFab: FloatingActionButton = findViewById(R.id.email_fab)
         emailFab.setOnClickListener { view ->
+
+            this.requestWriteExtStoragePermission(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, reqCodeWriteExternalStorage)
+
+            permissionGrantedBehavior = {
+                Log.d(tTAG, "LAMBDA: 🙆‍♀️ PERMISSION GRANTED 🙆‍♂️‍")
+                Toast.makeText(it, "🙆‍♀️ Permission Granted 🙆‍♂️" ,Toast.LENGTH_SHORT).show()
+
+                val json = this.mPresenter!!.getSimpleJsonSampleResponse()
+                Log.d("JSON_OUT", json.getString("userId") )
+                Log.d("JSON_OUT", json.getString("id") )
+                Log.d("JSON_OUT", json.getString("success") )
+
+                mPresenter!!.getJsonSampleResponse()
+
+            }
+
+            permissionDeniedBehavior = {
+                Toast.makeText(it, "🙅 Permission Denied 🙅‍" ,Toast.LENGTH_SHORT).show()
+                Log.d(tTAG, "LAMBDA: 🙅 ‍PERMISSION Denied 🙅‍")
+            }
+
+            permissionUndefinedBehavior = {
+                Toast.makeText(it, "🤷 Something Went Wrong 🤷‍‍" ,Toast.LENGTH_SHORT).show()
+
+            }
+
             this.counter += 1
-            updateMainContentText("${this.counter}")
+            updateMainContentText(this.counter.toString())
 
             handleOkButton(view)
-
-            val json = this.mPresenter!!.getSimpleJsonSampleResponse()
-            Log.d("JSON_OUT", json.getString("userId") )
-            Log.d("JSON_OUT", json.getString("id") )
-            Log.d("JSON_OUT", json.getString("success") )
-
-            mPresenter!!.getJsonSampleResponse()
-
         }
     }
 
@@ -62,7 +87,7 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
         return when (item.itemId) {
             R.id.action_reset_counter -> {
                 restCounter()
-                updateMainContentText("$this.counter")
+                updateMainContentText(this.counter.toString())
                 true
             }
             else -> {
@@ -75,13 +100,33 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
         menuInflater.inflate(R.menu.menu_main, menu)
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            reqCodeWriteExternalStorage -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Log.d(tTAG, "GRANTED")
+                    permissionGrantedBehavior.invoke(this)
+                } else {
+                    Log.d(tTAG, "DENIED")
+                    permissionDeniedBehavior.invoke(this)
+                }
+            }
+            else -> {
+                Log.e(tTAG, "[UNDEFINED] requestCode")
+                permissionUndefinedBehavior.invoke(this)
+            }
+        }
+    }
+
     override fun updateMainContentText(text: String) {
         val messageView: TextView = findViewById(R.id.main_content_text)
         messageView.text = text
     }
 
     override fun handleOkButton(view: View) {
-        Snackbar.make(view, "Tapped $this.counter times.", Snackbar.LENGTH_SHORT)
+        Snackbar.make(view, "Tapped ${this.counter} times.", Snackbar.LENGTH_SHORT)
             .setAction("Action", null).show()
     }
 
@@ -90,13 +135,17 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
     }
 
     override fun handleSuccess(result: Array<SinglePostResponse>) {
-        Log.d(TAG, result.toString())
-        Log.d(TAG, "SUCCESS")
+        Log.d(tTAG, "SUCCESS")
     }
 
     override fun handleError(message: String) {
-        Log.e(TAG, message)
-        Log.e(TAG, "ERROR")
+        Log.e(tTAG, "ERROR")
+    }
+
+    private fun requestWriteExtStoragePermission(manifestPermission: String, requestCode: Int) {
+        if (checkSelfPermission(manifestPermission) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(manifestPermission), requestCode)
+        }
     }
 
 }

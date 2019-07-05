@@ -1,4 +1,4 @@
-package com.ryoyakawai.uitestsample
+package com.ryoyakawai.uitestsample.uitestutils
 
 import android.content.Intent
 import android.os.Build
@@ -23,11 +23,6 @@ import org.hamcrest.core.IsNull
 import kotlin.random.Random
 import androidx.test.uiautomator.UiObjectNotFoundException
 import androidx.test.uiautomator.UiSelector
-import androidx.test.uiautomator.Until.findObject
-import androidx.test.uiautomator.UiObject
-import android.os.Build.VERSION
-import android.os.Build.VERSION.SDK_INT
-
 
 
 class UiTestUtils {
@@ -55,7 +50,7 @@ class UiTestUtils {
         // Tap Home Button of Android
         mDevice.pressHome()
 
-        // Wait 5sec after Launching
+        // Wait 5secs after Launching
         val launcherPackage = mDevice.launcherPackageName
         log_d("packageName=[$launcherPackage]")
         MatcherAssert.assertThat(launcherPackage, IsNull.notNullValue())
@@ -75,21 +70,22 @@ class UiTestUtils {
 
     fun allowPermissionsIfNeeded() {
         if (Build.VERSION.SDK_INT >= 23) {
-            val allowPermissions = mDevice.findObject(UiSelector().text("Allow"))
+            val allowPermissions = this.mDevice.findObject(
+                UiSelector()
+                    .clickable(true).checkable(false).index(1))
             if (allowPermissions.exists()) {
                 try {
                     allowPermissions.click()
                 } catch (e: UiObjectNotFoundException) {
-                    log_d(" 👍")
+                    log_d("[Allow Button Does Not Found]")
                 }
-
             }
         }
     }
 
     fun randomString(length: Int): String {
         return (1..length)
-            .map { i -> Random.nextInt(0, charPool.size) }
+            .map { Random.nextInt(0, charPool.size) }
             .map(charPool::get)
             .joinToString("")
     }
