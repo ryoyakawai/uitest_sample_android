@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.util.Log
-import android.widget.Button
 import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
         val emailFab: FloatingActionButton = findViewById(R.id.email_fab)
         emailFab.setOnClickListener { view ->
             this.counter += 1
-            updateMainContentText("${this.counter}")
+            updateMainContentText(this.counter.toString())
 
             handleOkButton(view)
 
@@ -62,7 +61,7 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
         return when (item.itemId) {
             R.id.action_reset_counter -> {
                 restCounter()
-                updateMainContentText("$this.counter")
+                updateMainContentText(this.counter.toString())
                 true
             }
             else -> {
@@ -76,12 +75,13 @@ class MainActivity : AppCompatActivity(), MainActivityViewContract {
     }
 
     override fun updateMainContentText(text: String) {
+        Log.d(TAG, text)
         val messageView: TextView = findViewById(R.id.main_content_text)
         messageView.text = text
     }
 
     override fun handleOkButton(view: View) {
-        Snackbar.make(view, "Tapped $this.counter times.", Snackbar.LENGTH_SHORT)
+        Snackbar.make(view, "Tapped ${this.counter} times.", Snackbar.LENGTH_SHORT)
             .setAction("Action", null).show()
     }
 
