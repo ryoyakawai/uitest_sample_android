@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context="com.example.uitestsample.MainActivity">
 
     <android.support.design.widget.AppBarLayout
             android:layout_height="wrap_content"
@@ -36,10 +36,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@android:string/ok"
+                android:text="+"
                 android:elevation="16dp"
                 android:textColor="@android:color/white"
-                android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/email_fab_text"/>
+                android:textAppearance="?android:attr/textAppearanceMedium" android:id="@+id/increment_fab_text"/>
     </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
