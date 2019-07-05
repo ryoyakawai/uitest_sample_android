@@ -1,4 +1,4 @@
-package com.ryoyakawai.uitestsample
+package com.example.uitestsample
 
 import org.json.JSONObject
 

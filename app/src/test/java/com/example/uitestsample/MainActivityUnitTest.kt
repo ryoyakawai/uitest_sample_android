@@ -1,10 +1,10 @@
-package com.ryoyakawai.uitestsample
+package com.example.uitestsample
 
-import com.ryoyakawai.uitestsample.api.APIClient.setConnection
-import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
+import com.example.uitestsample.api.APIClient.setConnection
+import com.example.uitestsample.api.response.SinglePostResponse
 import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.*
-import com.ryoyakawai.uitestsample.unittestuitls.UnitTestUtils
+import com.example.uitestsample.unittestuitls.UnitTestUtils
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest

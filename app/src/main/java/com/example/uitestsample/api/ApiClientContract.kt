@@ -1,4 +1,4 @@
-package com.ryoyakawai.uitestsample.api
+package com.example.uitestsample.api
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

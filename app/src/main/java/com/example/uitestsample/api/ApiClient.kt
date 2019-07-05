@@ -1,5 +1,4 @@
-
-package com.ryoyakawai.uitestsample.api
+package com.example.uitestsample.api
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

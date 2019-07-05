@@ -1,8 +1,8 @@
-package com.ryoyakawai.uitestsample
+package com.example.uitestsample
 
 import org.json.JSONObject
 import android.util.Log
-import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
+import com.example.uitestsample.api.response.SinglePostResponse
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.schedulers.AndroidSchedulers

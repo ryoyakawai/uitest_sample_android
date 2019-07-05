@@ -1,6 +1,6 @@
-package com.ryoyakawai.uitestsample.api
+package com.example.uitestsample.api
 
-import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
+import com.example.uitestsample.api.response.SinglePostResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Headers

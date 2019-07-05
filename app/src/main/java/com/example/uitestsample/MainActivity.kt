@@ -1,4 +1,4 @@
-package com.ryoyakawai.uitestsample
+package com.example.uitestsample
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -11,7 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.util.Log
-import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
+import com.example.uitestsample.api.response.SinglePostResponse
 
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.Toast

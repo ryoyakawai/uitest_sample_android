@@ -1,8 +1,8 @@
-package com.ryoyakawai.uitestsample
+package com.example.uitestsample
 
-import com.ryoyakawai.uitestsample.api.APIClient
-import com.ryoyakawai.uitestsample.api.ApiConnection
-import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
+import com.example.uitestsample.api.APIClient
+import com.example.uitestsample.api.ApiConnection
+import com.example.uitestsample.api.response.SinglePostResponse
 import io.reactivex.Single
 import org.json.JSONObject
 

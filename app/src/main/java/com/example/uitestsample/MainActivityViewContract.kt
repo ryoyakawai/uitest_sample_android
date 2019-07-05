@@ -1,8 +1,8 @@
-package com.ryoyakawai.uitestsample
+package com.example.uitestsample
 
 import android.view.Menu
 import android.view.View
-import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
+import com.example.uitestsample.api.response.SinglePostResponse
 
 interface MainActivityViewContract {
 

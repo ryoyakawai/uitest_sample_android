@@ -1,7 +1,7 @@
-package com.ryoyakawai.uitestsample.unittestuitls
+package com.example.uitestsample.unittestuitls
 
-import com.ryoyakawai.uitestsample.api.APIClient
-import com.ryoyakawai.uitestsample.api.ApiConnection
+import com.example.uitestsample.api.APIClient
+import com.example.uitestsample.api.ApiConnection
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers

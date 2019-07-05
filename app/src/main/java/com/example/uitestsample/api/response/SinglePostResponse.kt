@@ -1,9 +1,5 @@
-package com.ryoyakawai.uitestsample.api.response
-/*
-class CommentsPostId1(
-    Array<SinglePostResponse>
-)
-*/
+package com.example.uitestsample.api.response
+
 class SinglePostResponse (
     val postId: Int,
     val id: Int,

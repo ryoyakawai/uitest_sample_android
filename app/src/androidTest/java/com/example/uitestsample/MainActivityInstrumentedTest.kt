@@ -1,4 +1,4 @@
-package com.ryoyakawai.uitestsample
+package com.example.uitestsample
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.InstrumentationRegistry.getTargetContext
@@ -23,7 +23,7 @@ import org.hamcrest.Matchers.containsString
 import org.junit.After
 import org.junit.Before
 import androidx.test.uiautomator.UiDevice
-import com.ryoyakawai.uitestsample.uitestutils.UiTestUtils
+import com.example.uitestsample.uitestutils.UiTestUtils
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -35,7 +35,7 @@ import com.ryoyakawai.uitestsample.uitestutils.UiTestUtils
 @LargeTest
 class MainActivityInstrumentedTest {
 
-    private val _packageName = "com.ryoyakawai.uitestsample"
+    private val _packageName = "com.example.uitestsample"
     private lateinit var mUTs: UiTestUtils
     private lateinit var mDevice: UiDevice
 
