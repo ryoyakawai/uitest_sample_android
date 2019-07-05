@@ -1,4 +1,4 @@
-package com.ryoyakawai.uitestsample
+package com.ryoyakawai.uitestsample.uitestutils
 
 import android.content.Intent
 import android.os.Build
