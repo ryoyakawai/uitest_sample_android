@@ -30,7 +30,7 @@ internal class MockServerDispatcher {
             "body01"
         )
     )
-    internal inner class sample00 : Dispatcher() {
+    internal inner class Resp200 : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
             return MockResponse()
                 .setResponseCode(200)
@@ -62,7 +62,7 @@ class MainActivityUnitTest {
     @Test
     fun sampleUnitDataFetchSuccessTest() {
         mMockTestUtils.mockServerBehaviorSwitcher = {
-            MockServerDispatcher().sample00()
+            MockServerDispatcher().Resp200()
         }
         val expectedResponse = MockServerDispatcher().mockedResponse
 
@@ -71,8 +71,7 @@ class MainActivityUnitTest {
 
         mMainActivityPresenter.setView(mMainActivityViewContract)
 
-        mMockTestUtils.resetRx()
-        mMockTestUtils.switchToTrampolineScheduler()
+        mMockTestUtils.prepareRxForTesting()
 
         mMockTestUtils.startMockServer()
         var mApiConnection = mMockTestUtils.setupMockServer()
@@ -109,8 +108,7 @@ class MainActivityUnitTest {
 
         mMainActivityPresenter.setView(mMainActivityViewContract)
 
-        mMockTestUtils.resetRx()
-        mMockTestUtils.switchToTrampolineScheduler()
+        mMockTestUtils.prepareRxForTesting()
 
         mMockTestUtils.startMockServer()
         var mApiConnection = mMockTestUtils.setupMockServer()
@@ -135,8 +133,7 @@ class MainActivityUnitTest {
 
         mMainActivityPresenter.setView(mMainActivityViewContract)
 
-        mMockTestUtils.resetRx()
-        mMockTestUtils.switchToTrampolineScheduler()
+        mMockTestUtils.prepareRxForTesting()
 
         mMockTestUtils.startMockServer()
         var mApiConnection = mMockTestUtils.setupMockServer()

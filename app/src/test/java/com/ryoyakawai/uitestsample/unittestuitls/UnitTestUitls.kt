@@ -54,12 +54,17 @@ class UnitTestUtils {
         }
     }
 
-    fun resetRx() {
+    fun prepareRxForTesting() {
+        this.resetRx()
+        this.switchToTrampolineScheduler()
+    }
+
+    private fun resetRx() {
         RxJavaPlugins.reset()
         RxAndroidPlugins.reset()
     }
 
-    fun switchToTrampolineScheduler() {
+    private fun switchToTrampolineScheduler() {
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
