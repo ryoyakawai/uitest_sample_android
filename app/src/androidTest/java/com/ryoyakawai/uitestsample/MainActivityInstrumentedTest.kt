@@ -23,7 +23,7 @@ import org.hamcrest.Matchers.containsString
 import org.junit.After
 import org.junit.Before
 import androidx.test.uiautomator.UiDevice
-
+import com.ryoyakawai.uitestsample.uitestutils.UiTestUtils
 
 /**
  * Instrumented test, which will execute on an Android device.

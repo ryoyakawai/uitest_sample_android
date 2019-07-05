@@ -1,10 +1,10 @@
 package com.ryoyakawai.uitestsample
 
-import com.ryoyakawai.uitestsample.UnitTestUtils.*
 import com.ryoyakawai.uitestsample.api.APIClient.setConnection
 import com.ryoyakawai.uitestsample.api.response.SinglePostResponse
 import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.*
+import com.ryoyakawai.uitestsample.unittestuitls.UnitTestUtils
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
@@ -13,7 +13,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 internal class MockServerDispatcher {
-    // Array<SinglePostResponse>
     val mockedResponse = arrayOf(
         SinglePostResponse(
             0,

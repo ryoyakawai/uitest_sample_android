@@ -1,4 +1,4 @@
-package com.ryoyakawai.uitestsample.UnitTestUtils
+package com.ryoyakawai.uitestsample.unittestuitls
 
 import com.ryoyakawai.uitestsample.api.APIClient
 import com.ryoyakawai.uitestsample.api.ApiConnection
@@ -13,7 +13,6 @@ import org.mockito.Mockito
 
 // [Unit testing support - Android Studio Project Site]
 // http://tools.android.com/tech-docs/unit-testing-support#TOC-Method-...-not-mocked.-
-
 
 class UnitTestUtils {
 
