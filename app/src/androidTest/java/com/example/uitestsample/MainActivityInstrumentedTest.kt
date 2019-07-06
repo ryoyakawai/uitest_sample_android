@@ -69,7 +69,7 @@ class MainActivityInstrumentedTest {
         mUTs.screenShot()
         val appContext = getTargetContext()
         assertEquals(_packageName, appContext.packageName)
-        mUTs.log_d("useAppContext()")
+        mUTs.screenShot()
         this.mUTs.sleep("SHR")
 
         this.mUTs.removeSuccessScreenShots()
@@ -82,7 +82,9 @@ class MainActivityInstrumentedTest {
         mUTs.log_d("useAppContext()")
         this.mUTs.sleep("SHR")
 
+        mUTs.screenShot()
         assertEquals(true, false)
+        mUTs.screenShot()
         this.mUTs.removeSuccessScreenShots()
     }
 
