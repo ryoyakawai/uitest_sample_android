@@ -23,10 +23,10 @@ jobs:
       - run:
           command: ./gradlew androidDependencies
           when: always
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      #- save_cache:
+      #    paths:
+      #      - ~/.gradle
+      #    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Unit Tests against Presenter
           command: ./gradlew clean lint test
