@@ -16,8 +16,8 @@ jobs:
       JVM_OPTS: -Xmx5000m
     steps:
       - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      #- restore_cache:
+      #    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run: sdkmanager --licenses
       - run: yes | sdkmanager --update || exit 0
       - run:
@@ -75,10 +75,10 @@ jobs:
               --test-targets "class com.example.uitestsample.MainActivityInstrumentedTest" \
               --results-dir $BK_OBJ_NAME \
               --results-bucket cloud-test-${GOOGLE_PROJECT_ID} \
+              --directories-to-pull=/sdcard/uitest/ \
               --device model=Pixel2,version=26,locale=en_US,orientation=portrait \
               --use-orchestrator \
               --timeout 120s
-      #--directories-to-pull=/sdcard/uitest/ \
       #--environment-variables coverage=true,coverageFile=/sdcard/coverage.ec \
       - run:
           name: Install gsutil dependency and copy test results data
