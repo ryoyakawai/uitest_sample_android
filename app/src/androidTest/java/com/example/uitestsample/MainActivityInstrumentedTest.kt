@@ -69,7 +69,6 @@ class MainActivityInstrumentedTest {
         mUTs.screenShot()
         val appContext = getTargetContext()
         assertEquals(_packageName, appContext.packageName)
-        mUTs.screenShot()
         this.mUTs.sleep("SHR")
 
         this.mUTs.removeSuccessScreenShots()
@@ -82,9 +81,6 @@ class MainActivityInstrumentedTest {
         mUTs.log_d("useAppContext()")
         this.mUTs.sleep("SHR")
 
-        mUTs.screenShot()
-        assertEquals(true, false)
-        mUTs.screenShot()
         this.mUTs.removeSuccessScreenShots()
     }
 
@@ -135,6 +131,11 @@ class MainActivityInstrumentedTest {
         actualCount = this.mUTs.getText(withId(R.id.main_content_text))
         this.mUTs.log_d("[Counter Clear] 🍏🍎🍐 expected=[0] actual=[$actualCount]")
         assertEquals("[Counter Clear] 🍏🍎🍐", actualCount, "0")
+
+
+        mUTs.screenShot()
+        assertEquals(true, false)
+        mUTs.screenShot()
 
         this.mUTs.removeSuccessScreenShots()
     }
