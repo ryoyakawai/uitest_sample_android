@@ -1,7 +1,9 @@
 package com.example.uitestsample.uitestutils
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
+import android.os.Environment
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.UiController
@@ -23,20 +25,36 @@ import org.hamcrest.core.IsNull
 import kotlin.random.Random
 import androidx.test.uiautomator.UiObjectNotFoundException
 import androidx.test.uiautomator.UiSelector
+import java.io.File
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class UiTestUtils {
 
     lateinit var mDevice: UiDevice
-    private val LAUNCHTIMEOUT = 5000L
+    private val mLAUNCHTIMEOUT = 5000L
+
+    private var screenShotCounter = 0
+    private lateinit var screenShotDir: String
+    private val screenShotDirFormat = "yyyyMMdd_HHmmssSSS"
+    private lateinit var filePrefix: String
 
     private val msgTAG = "[MSG] <<📋🖌 UI TEST 🔎✔️>>"
 
     // ハッシュ値生成用文字列
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
-    init {
-        log_d("[Begin Test] 👉 " + randomString(10))
+    init { }
+
+    fun updateFilePrefx() {
+        this.filePrefix = randomString(10)
+    }
+
+    fun startTest() {
+        this.updateFilePrefx()
+        var message = "[Begin Test] 👉 ${this.filePrefix}"
+        Log.d(msgTAG, message)
     }
 
     fun getDevice(): UiDevice  {
@@ -52,9 +70,9 @@ class UiTestUtils {
 
         // Wait 5secs after Launching
         val launcherPackage = mDevice.launcherPackageName
-        log_d("packageName=[$launcherPackage]")
+        Log.d(msgTAG, "packageName=[$launcherPackage]")
         MatcherAssert.assertThat(launcherPackage, IsNull.notNullValue())
-        mDevice.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), LAUNCHTIMEOUT)
+        mDevice.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), mLAUNCHTIMEOUT)
 
         // Launch App
         val context = InstrumentationRegistry.getContext()
@@ -63,9 +81,56 @@ class UiTestUtils {
         intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         context.startActivity(intent)
 
-        // Wait for defined duration as LAUNCHTIMEOUT
-        mDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), LAUNCHTIMEOUT)
+        // Wait for defined duration as mLAUNCHTIMEOUT
+        mDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), mLAUNCHTIMEOUT)
 
+        this.prepareScreenShot()
+    }
+
+    private fun prepareScreenShot() {
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern(this.screenShotDirFormat)
+        val formatted = current.format(formatter)
+        val sdcard = Environment.getExternalStorageDirectory()
+        this.screenShotDir = "$sdcard/uitest/$formatted-${randomString(10)}"
+        File(this.screenShotDir).mkdirs()
+        Log.d(msgTAG, "saveDirectory=[${this.screenShotDir}]")
+    }
+
+    fun screenShot(type: String = "") {
+        screenShotCounter += 1
+        var picNumber = String.format("%06d", screenShotCounter)
+        var path = "${this.screenShotDir}/Screenshot-${this.filePrefix}-$picNumber-$type.png"
+        Log.d(msgTAG, "📷 filename=[$path]")
+        var aPath = File(path)
+        mDevice.takeScreenshot(aPath)
+        while(!aPath.exists()) {
+            this.sleep("SHR")
+        }
+    }
+
+    fun removeSuccessScreenShots() {
+        File("${this.screenShotDir}/").walkTopDown().forEach {
+            if(it.name.contains("${this.filePrefix}-.*.png$".toRegex())) {
+                //this.log_d(" [REMOVE] $it")
+                it.delete()
+                while (it.exists()) {
+                    this.sleep("SHR")
+                }
+            }
+        }
+        File("${this.screenShotDir}/").delete()
+/*
+        var count = 0
+        File("${this.screenShotDir}/").walkTopDown().forEach {
+            if (it.getName().contains("${this.filePrefix}-.*success.*png$".toRegex())) {
+                count += 1
+            }
+        }
+        if(count == 0 ) {
+
+        }
+*/
     }
 
     fun allowPermissionsIfNeeded() {
@@ -146,5 +211,5 @@ class UiTestUtils {
         })
         return stringHolder[0]
     }
-
 }
+
