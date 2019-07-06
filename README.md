@@ -5,10 +5,10 @@ This is an ui test code sample of Espresso. The app is really a basic/template s
 
 ## Where is the Test code?
 ### UI Test(Instrumented Test)
-The code is under [`app/src/androidTest/java/com/ryoyakawai/uitestsample`](https://github.com/ryoyakawai/uitest_sample_android/tree/master/app/src/androidTest/java/com/ryoyakawai/uitestsample)
+The code is under [`app/src/androidTest/java/com/example/uitestsample`](https://github.com/ryoyakawai/uitest_sample_android/tree/master/app/src/androidTest/java/com/example/uitestsample)
 
 ### Unit Test
-The code is under [`app/src/test/java/com/ryoyakawai/uitestsample`](https://github.com/ryoyakawai/uitest_sample_android/tree/master/app/src/test/java/com/ryoyakawai/uitestsample)
+The code is under [`app/src/test/java/com/example/uitestsample`](https://github.com/ryoyakawai/uitest_sample_android/tree/master/app/src/test/java/com/example/uitestsample)
 
 
 ## How to run the Test?

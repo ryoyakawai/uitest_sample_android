@@ -1,7 +1,5 @@
 package com.example.uitestsample
 
-import android.app.Activity
-import android.app.Instrumentation
 import android.support.test.InstrumentationRegistry
 import android.support.test.InstrumentationRegistry.getTargetContext
 import android.support.test.espresso.Espresso
@@ -18,10 +16,8 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 import android.support.test.filters.LargeTest
 import android.support.test.filters.SdkSuppress
-import android.support.test.rule.ActivityTestRule
 import android.support.test.rule.GrantPermissionRule
 import android.view.View
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
