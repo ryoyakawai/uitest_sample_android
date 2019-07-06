@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">UI Test Sample App</string>
+    <string name="app_name">UITest Sample App</string>
     <string name="action_reset_counter">Reset Counter</string>
 </resources>
