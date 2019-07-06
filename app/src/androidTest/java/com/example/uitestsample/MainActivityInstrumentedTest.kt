@@ -132,11 +132,6 @@ class MainActivityInstrumentedTest {
         this.mUTs.log_d("[Counter Clear] 🍏🍎🍐 expected=[0] actual=[$actualCount]")
         assertEquals("[Counter Clear] 🍏🍎🍐", actualCount, "0")
 
-
-        mUTs.screenShot()
-        assertEquals(true, false)
-        mUTs.screenShot()
-
         this.mUTs.removeSuccessScreenShots()
     }
 

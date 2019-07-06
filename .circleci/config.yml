@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-28
+      - image: circleci/android:api-26
       # API version list for Android Docker image
       # https://hub.docker.com/r/circleci/android/tags
       # https://circleci.com/docs/2.0/circleci-images/#android
