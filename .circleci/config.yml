@@ -75,7 +75,7 @@ jobs:
               --test-targets "class com.example.uitestsample.MainActivityInstrumentedTest" \
               --results-dir $BK_OBJ_NAME \
               --results-bucket cloud-test-${GOOGLE_PROJECT_ID} \
-              --directories-to-pull /sdcard/uitest/,/data/screenshots/ \
+              --directories-to-pull /sdcard/uitest/ \
               --device model=Pixel2,version=26,locale=en_US,orientation=portrait \
               --use-orchestrator \
               --timeout 120s
