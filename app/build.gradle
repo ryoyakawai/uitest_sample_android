@@ -31,7 +31,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
@@ -46,7 +45,6 @@ android {
     }
 
     testOptions {
-        execution 'ANDROID_TEST_ORCHESTRATOR'
         animationsDisabled true
 
         unitTests {
@@ -77,17 +75,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 
     // Unit and UI Test
-    androidTestUtil 'com.android.support.test:orchestrator:1.0.2'
-    testImplementation 'junit:junit:4.12'
+    androidTestUtil 'androidx.test:orchestrator:1.2.0'
     testImplementation 'org.robolectric:robolectric:3.7.1'
     testImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
     testImplementation 'com.squareup.retrofit2:retrofit-mock:2.3.0'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.10.0'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
-    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
     // Core library [AndroidX]
     androidTestImplementation 'androidx.test:core:1.2.0'
@@ -95,11 +87,8 @@ dependencies {
     // AndroidJUnitRunner and JUnit Rules [AndroidX]
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
-
-    // Assertions [AndroidX]
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.ext:truth:1.2.0'
-    androidTestImplementation 'com.google.truth:truth:0.42'
 
     // Espresso dependencies [AndroidX]
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -109,4 +98,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-web:3.2.0'
     androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.2.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+
 }

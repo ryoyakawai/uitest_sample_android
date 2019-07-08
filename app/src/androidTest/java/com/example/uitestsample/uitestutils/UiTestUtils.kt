@@ -1,18 +1,21 @@
 package com.example.uitestsample.uitestutils
 
+import android.app.Instrumentation
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Environment
-import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.Espresso
-import android.support.test.espresso.UiController
-import android.support.test.espresso.ViewAction
-import android.support.test.espresso.action.ViewActions
-import android.support.test.espresso.matcher.ViewMatchers
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.*
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.base.DefaultFailureHandler
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.FailureHandler
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
@@ -27,6 +30,8 @@ import androidx.test.uiautomator.UiSelector
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import org.junit.rules.TestWatcher
+
 
 
 class UiTestUtils {
@@ -44,7 +49,10 @@ class UiTestUtils {
     // ハッシュ値生成用文字列
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
-    init { }
+    init {
+        this.updateFilePrefx()
+        Log.d(msgTAG, "[Begin Test] 👉 ${this.filePrefix}")
+    }
 
     fun updateFilePrefx() {
         this.filePrefix = randomString(10)
@@ -52,8 +60,7 @@ class UiTestUtils {
 
     fun startTest() {
         this.updateFilePrefx()
-        var message = "[Begin Test] 👉 ${this.filePrefix}"
-        Log.d(msgTAG, message)
+        Log.d(msgTAG, "[Begin Test] 👉 ${this.filePrefix}")
     }
 
     fun getDevice(): UiDevice  {
@@ -74,7 +81,8 @@ class UiTestUtils {
         mDevice.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), mLAUNCHTIMEOUT)
 
         // Launch App
-        val context = InstrumentationRegistry.getContext()
+        //val context = InstrumentationRegistry.getContext()
+        val context = ApplicationProvider.getApplicationContext<Context>()
         val intent = context.packageManager
             .getLaunchIntentForPackage(packageName)
         intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -93,10 +101,10 @@ class UiTestUtils {
         val sdcard = Environment.getExternalStorageDirectory()
         this.screenShotDir = "$sdcard/uitest/$formatted-${randomString(10)}"
         File(this.screenShotDir).mkdirs()
-        Log.d(msgTAG, "saveDirectory=[${this.screenShotDir}]")
+        Log.d(msgTAG, "📷 saveDirectory=[${this.screenShotDir}]")
     }
 
-    fun screenShot(type: String = "") {
+    fun screenShot(type: String = ""): String {
         screenShotCounter += 1
         var picNumber = String.format("%06d", screenShotCounter)
         var path = "${this.screenShotDir}/Screenshot-${this.filePrefix}-$picNumber-$type.png"
@@ -106,6 +114,7 @@ class UiTestUtils {
         while(!aPath.exists()) {
             this.sleep("SHR")
         }
+        return aPath.toString()
     }
 
     fun removeSuccessScreenShots() {
@@ -210,5 +219,16 @@ class UiTestUtils {
         })
         return stringHolder[0]
     }
+
 }
 
+class ScreenshotTakingRule(mUTs: UiTestUtils) : TestWatcher() {
+
+    private var mUTs = mUTs
+
+    override fun failed(e: Throwable?, description: org.junit.runner.Description?) {
+        super.failed(e, description)
+        val path = mUTs.screenShot("FAIL-$description")
+        mUTs.log_d(">>> !!! TEST FAILED !!! <<< ScreenShot Taken method=[$description] filename=[$path]")
+    }
+}

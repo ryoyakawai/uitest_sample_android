@@ -1,34 +1,30 @@
 package com.example.uitestsample
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.InstrumentationRegistry.getTargetContext
-import android.support.test.espresso.Espresso
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.NoMatchingViewException
-import android.support.test.espresso.action.ViewActions.click
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.*
-import android.support.test.runner.AndroidJUnit4
 
-import org.junit.Test
-import org.junit.runner.RunWith
-
-import org.junit.Assert.*
-import android.support.test.filters.LargeTest
-import android.support.test.filters.SdkSuppress
-import android.support.test.rule.GrantPermissionRule
 import android.view.View
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
+import androidx.test.filters.SdkSuppress
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.GrantPermissionRule
+import androidx.test.uiautomator.UiDevice
+import com.example.uitestsample.uitestutils.ScreenshotTakingRule
+import com.example.uitestsample.uitestutils.UiTestUtils
+import junit.framework.TestCase.assertEquals
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.junit.After
 import org.junit.Before
-import androidx.test.uiautomator.UiDevice
-import com.example.uitestsample.uitestutils.UiTestUtils
-import android.app.PendingIntent.getActivity as getActivity1
 import org.junit.Rule
-
-
+import org.junit.Test
+import org.junit.runner.RunWith
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -41,7 +37,7 @@ import org.junit.Rule
 class MainActivityInstrumentedTest {
 
     private val _packageName = "com.example.uitestsample"
-    private lateinit var mUTs: UiTestUtils
+    private var mUTs: UiTestUtils = UiTestUtils()
     private lateinit var mDevice: UiDevice
 
     @Rule
@@ -49,12 +45,15 @@ class MainActivityInstrumentedTest {
     var cGrantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     @Before
+    @Throws(Exception::class)
     fun setup() {
-        this.mUTs = UiTestUtils()
-        this.mUTs.startTest()
         this.mUTs.launchApp(_packageName)
         this.mDevice = this.mUTs.getDevice()
     }
+
+    @Rule
+    @JvmField
+    val screenshotRule = ScreenshotTakingRule(this.mUTs)
 
     @After
     fun teardown() { }
@@ -62,8 +61,7 @@ class MainActivityInstrumentedTest {
     @Test
     fun useAppContext() {
         // Context of the app under test.
-        mUTs.screenShot()
-        val appContext = getTargetContext()
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals(_packageName, appContext.packageName)
         this.mUTs.sleep("SHR")
 
@@ -103,7 +101,7 @@ class MainActivityInstrumentedTest {
             mUTs.screenShot()
             actualCount = this.mUTs.getText(withId(R.id.main_content_text))
             this.mUTs.log_d("[Counter SEQ] 🍏🍎 expected=[$i] actual=[$actualCount]")
-            assertEquals("[Counter SEQ] 🍏🍎", i.toString(), actualCount)
+            assertEquals("[Counter SEQ] 🍏🍎", i.toString(), actualCount + "_")
 
             // Wait for snack bar disappears
             mUTs.screenShot()
@@ -145,3 +143,4 @@ class MainActivityInstrumentedTest {
     }
 
 }
+
