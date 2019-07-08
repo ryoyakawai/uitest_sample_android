@@ -1,6 +1,5 @@
 package com.example.uitestsample.uitestutils
 
-import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -10,28 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.*
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.base.DefaultFailureHandler
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.FailureHandler
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.By
-import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.Until
+import androidx.test.uiautomator.*
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.MatcherAssert
 import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.core.IsNull
-import kotlin.random.Random
-import androidx.test.uiautomator.UiObjectNotFoundException
-import androidx.test.uiautomator.UiSelector
+import org.junit.rules.TestWatcher
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import org.junit.rules.TestWatcher
-
+import kotlin.random.Random
 
 
 class UiTestUtils {
