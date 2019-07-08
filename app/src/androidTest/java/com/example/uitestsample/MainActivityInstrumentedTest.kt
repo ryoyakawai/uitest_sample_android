@@ -101,7 +101,7 @@ class MainActivityInstrumentedTest {
             mUTs.screenShot()
             actualCount = this.mUTs.getText(withId(R.id.main_content_text))
             this.mUTs.log_d("[Counter SEQ] 🍏🍎 expected=[$i] actual=[$actualCount]")
-            assertEquals("[Counter SEQ] 🍏🍎", i.toString(), actualCount + "_")
+            assertEquals("[Counter SEQ] 🍏🍎", i.toString(), actualCount)
 
             // Wait for snack bar disappears
             mUTs.screenShot()
