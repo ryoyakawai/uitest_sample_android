@@ -1,26 +1,27 @@
 package com.example.uitestsample.uitestutils
 
-import android.content.Context
-import android.content.Intent
+import android.app.Activity
 import android.os.Build
 import android.os.Environment
+import android.support.test.InstrumentationRegistry
+import android.support.test.espresso.Espresso
+import android.support.test.espresso.UiController
+import android.support.test.espresso.ViewAction
+import android.support.test.espresso.action.ViewActions
+import android.support.test.espresso.matcher.ViewMatchers
+import android.support.test.uiautomator.UiDevice
+import android.support.test.uiautomator.UiObjectNotFoundException
+import android.support.test.uiautomator.UiSelector
+
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.*
+
+
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.MatcherAssert
 import org.hamcrest.TypeSafeMatcher
-import org.hamcrest.core.IsNull
 import org.junit.rules.TestWatcher
 import java.io.File
 import java.time.LocalDateTime
@@ -30,13 +31,15 @@ import kotlin.random.Random
 
 class UiTestUtils {
 
-    lateinit var mDevice: UiDevice
     private val mLAUNCHTIMEOUT = 5000L
+
+    private lateinit var mActivity: Activity
 
     private var screenShotCounter = 0
     private lateinit var screenShotDir: String
     private val screenShotDirFormat = "yyyyMMdd_HHmmssSSS"
     private lateinit var filePrefix: String
+    private var paramRemoveSuccessScreenShots = true
 
     private val msgTAG = "[MSG] <<📋🖌 UI TEST 🔎✔️>>"
 
@@ -44,19 +47,24 @@ class UiTestUtils {
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
     init {
-        this.updateFilePrefx()
+        this.updateFilePrefix()
         Log.d(msgTAG, "[Begin Test] 👉 ${this.filePrefix}")
     }
 
-    fun updateFilePrefx() {
+    fun setActivity(mActivity: Activity) {
+        this.mActivity = mActivity
+    }
+
+    fun updateFilePrefix() {
         this.filePrefix = randomString(10)
     }
 
     fun startTest() {
-        this.updateFilePrefx()
+        this.updateFilePrefix()
         Log.d(msgTAG, "[Begin Test] 👉 ${this.filePrefix}")
     }
 
+    /*
     fun getDevice(): UiDevice  {
         return mDevice
     }
@@ -87,31 +95,52 @@ class UiTestUtils {
 
         this.prepareScreenShot()
     }
+*/
+    fun setParamRemoveSuccessScreenShots(valToSet: Boolean) {
+        this.paramRemoveSuccessScreenShots = valToSet
+    }
 
-    private fun prepareScreenShot() {
+    fun prepareScreenShot(removeScreenShot: Boolean = true) {
+
+        this.setParamRemoveSuccessScreenShots(removeScreenShot)
+
+        val packageName = mActivity.packageName
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern(this.screenShotDirFormat)
         val formatted = current.format(formatter)
         val sdcard = Environment.getExternalStorageDirectory()
-        this.screenShotDir = "$sdcard/uitest/$formatted-${randomString(10)}"
+        this.screenShotDir = "$sdcard/uitest/$formatted-$packageName-${randomString(10)}"
         File(this.screenShotDir).mkdirs()
         Log.d(msgTAG, "📷 saveDirectory=[${this.screenShotDir}]")
     }
 
-    fun screenShot(type: String = ""): String {
+    private fun captureScreenshot(path: File) {
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).also {
+            it.takeScreenshot(path)
+        }
+    }
+
+    fun screenShot(type: String = "", message: String = "(NO MESSAGE)"): String {
         screenShotCounter += 1
         var picNumber = String.format("%06d", screenShotCounter)
         var path = "${this.screenShotDir}/Screenshot-${this.filePrefix}-$picNumber-$type.png"
-        Log.d(msgTAG, "📷 filename=[$path]")
-        var aPath = File(path)
-        mDevice.takeScreenshot(aPath)
-        while(!aPath.exists()) {
+        Log.d(msgTAG, "📷 🌉 filename=[$path]")
+        var mPath = File(path)
+
+        this.captureScreenshot(mPath)
+        val sMessage = "📸 🖌 MESSAGE=[$message] PATH=[$mPath]"
+        this.log_d(sMessage)
+        while(!mPath.exists()) {
             this.sleep("SHR")
         }
-        return aPath.toString()
+
+        return mPath.toString()
     }
 
     fun removeSuccessScreenShots() {
+        if(this.paramRemoveSuccessScreenShots == false) {
+            return
+        }
         File("${this.screenShotDir}/").walkTopDown().forEach {
             if(it.name.contains("${this.filePrefix}-.*.png$".toRegex())) {
                 //this.log_d(" [REMOVE] $it")
@@ -135,18 +164,24 @@ class UiTestUtils {
 */
     }
 
+    private fun findObjectPermission() {
+         UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).also { uiDevice ->
+             var allowPermissions = uiDevice.findObject(
+                 UiSelector().clickable(true).checkable(false).index(1)
+             )
+             if (allowPermissions.exists()) {
+                 try {
+                     allowPermissions.click()
+                 } catch (e: UiObjectNotFoundException) {
+                     log_d("[Allow Button Does Not Found]")
+                 }
+             }
+        }
+    }
+
     fun allowPermissionsIfNeeded() {
         if (Build.VERSION.SDK_INT >= 23) {
-            val allowPermissions = this.mDevice.findObject(
-                UiSelector()
-                    .clickable(true).checkable(false).index(1))
-            if (allowPermissions.exists()) {
-                try {
-                    allowPermissions.click()
-                } catch (e: UiObjectNotFoundException) {
-                    log_d("[Allow Button Does Not Found]")
-                }
-            }
+            this.findObjectPermission()
         }
     }
 
