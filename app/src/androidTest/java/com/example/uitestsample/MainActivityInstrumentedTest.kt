@@ -1,19 +1,20 @@
 package com.example.uitestsample
 
-
 import android.view.View
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.LargeTest
-import androidx.test.filters.SdkSuppress
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.rule.GrantPermissionRule
-import androidx.test.uiautomator.UiDevice
+import android.support.test.InstrumentationRegistry
+import android.support.test.filters.LargeTest
+import android.support.test.filters.SdkSuppress
+import android.support.test.espresso.Espresso
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.NoMatchingViewException
+import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.rule.ActivityTestRule
+import android.support.test.rule.GrantPermissionRule
+import android.support.test.runner.AndroidJUnit4
+import android.support.test.uiautomator.UiDevice
+
 import com.example.uitestsample.uitestutils.ScreenshotTakingRule
 import com.example.uitestsample.uitestutils.UiTestUtils
 import junit.framework.TestCase.assertEquals
@@ -44,22 +45,26 @@ class MainActivityInstrumentedTest {
     @JvmField
     var cGrantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-    @Before
-    @Throws(Exception::class)
-    fun setup() {
-        this.mUTs.launchApp(_packageName)
-        this.mDevice = this.mUTs.getDevice()
-    }
+    @Rule
+    @JvmField
+    var mActivityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
 
     @Rule
     @JvmField
     val screenshotRule = ScreenshotTakingRule(this.mUTs)
+
+    @Before
+    fun setup() {
+        this.mUTs.setActivity(mActivityTestRule.activity)
+    }
 
     @After
     fun teardown() { }
 
     @Test
     fun useAppContext() {
+        this.mUTs.prepareScreenShot()
+
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals(_packageName, appContext.packageName)
@@ -70,7 +75,8 @@ class MainActivityInstrumentedTest {
 
     @Test
     fun checkTextHelloWorld() {
-        mUTs.screenShot()
+        this.mUTs.prepareScreenShot()
+
         onView(withId(R.id.main_content_text)).check(matches(withText(containsString("Hello World!"))))
         mUTs.log_d("useAppContext()")
         this.mUTs.sleep("SHR")
@@ -80,9 +86,10 @@ class MainActivityInstrumentedTest {
 
     @Test
     fun checkButtonIncrementFloating() {
+        this.mUTs.prepareScreenShot(false)
         //
         // To check initial counter
-        mUTs.screenShot()
+        mUTs.screenShot("", "Hello World!!")
         var actualCount = this.mUTs.getText(withId(R.id.main_content_text))
         this.mUTs.log_d("[Counter initial] 🍏 expected=[Hello World!!] actual=[$actualCount]")
         assertEquals("[Counter initial] 🍏", "Hello World!!", actualCount)
@@ -94,17 +101,17 @@ class MainActivityInstrumentedTest {
 
         for(i in 1..willTap) {
             // Tap increment button
+            mUTs.screenShot("", "BEFORE >>> カンター：インクリメント IDX=[$i]")
             onView(incrementButton).perform(click())
 
             mUTs.allowPermissionsIfNeeded()
 
-            mUTs.screenShot()
+            mUTs.screenShot("", "AFTER >>> カンター：インクリメント IDX=[$i]")
             actualCount = this.mUTs.getText(withId(R.id.main_content_text))
             this.mUTs.log_d("[Counter SEQ] 🍏🍎 expected=[$i] actual=[$actualCount]")
             assertEquals("[Counter SEQ] 🍏🍎", i.toString(), actualCount)
 
             // Wait for snack bar disappears
-            mUTs.screenShot()
             val snackBarTapped = allOf(withId(android.support.design.R.id.snackbar_text), withText("Tapped $i times."))
             waitForSnackbarDisappear(snackBarTapped)
             this.mUTs.sleep("SHR")
@@ -113,7 +120,7 @@ class MainActivityInstrumentedTest {
 
         //
         // To check whether reset counter button works properly
-        mUTs.screenShot()
+        mUTs.screenShot("", "[BEFORE] カンターのリセット")
         Espresso.openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
         this.mUTs.sleep("SHR")
         val menuButton = allOf(
@@ -122,6 +129,7 @@ class MainActivityInstrumentedTest {
                 isDisplayed())
         onView(menuButton).perform(click())
         this.mUTs.sleep("SHR")
+        mUTs.screenShot("", "[AFTER] カンターのリセット")
         actualCount = this.mUTs.getText(withId(R.id.main_content_text))
         this.mUTs.log_d("[Counter Clear] 🍏🍎🍐 expected=[0] actual=[$actualCount]")
         assertEquals("[Counter Clear] 🍏🍎🍐", actualCount, "0")

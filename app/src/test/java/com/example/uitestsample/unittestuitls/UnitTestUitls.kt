@@ -16,7 +16,7 @@ import org.mockito.Mockito
 
 class UnitTestUtils {
 
-    var mMockServer: MockWebServer = MockWebServer()
+    private val mMockServer: MockWebServer = MockWebServer()
     var mockServerBehaviorSwitcher: (() -> Dispatcher)? = null
 
     fun startMockServer(port: Int = 8080) {
