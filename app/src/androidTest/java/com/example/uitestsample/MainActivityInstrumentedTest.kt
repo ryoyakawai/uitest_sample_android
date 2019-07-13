@@ -94,6 +94,9 @@ class MainActivityInstrumentedTest {
         this.mUTs.log_d("[Counter initial] 🍏 expected=[Hello World!!] actual=[$actualCount]")
         assertEquals("[Counter initial] 🍏", "Hello World!!", actualCount)
 
+        // click home button to fail test
+        //onView(withContentDescription(android.R.id.home)).perform(click())
+
         //
         // To check whether increment button works properly
         val willTap = 5

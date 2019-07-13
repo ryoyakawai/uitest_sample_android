@@ -79,12 +79,6 @@ class MainActivityUnitTest {
             verify(mMainActivityViewContract, times(1)).handleSuccess(capture())
 
             for (i in 0 until expectedResponse.size) {
-                assertEquals(expectedResponse[i].postId, this.firstValue[i].postId)
-                assertEquals(expectedResponse[i].id, this.firstValue[i].id)
-                assertEquals(expectedResponse[i].name, this.firstValue[i].name)
-                assertEquals(expectedResponse[i].email, this.firstValue[i].email)
-                assertEquals(expectedResponse[i].body, this.firstValue[i].body)
-
                 val expected = expectedResponse[i]
                 val actual = this.firstValue[i]
                 mMockTestUtils.assertDataClass(expected, actual)
