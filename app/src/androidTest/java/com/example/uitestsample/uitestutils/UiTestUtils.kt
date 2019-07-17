@@ -64,38 +64,6 @@ class UiTestUtils {
         Log.d(msgTAG, "[Begin Test] 👉 ${this.filePrefix}")
     }
 
-    /*
-    fun getDevice(): UiDevice  {
-        return mDevice
-    }
-
-    fun launchApp(packageName: String) {
-        // Initialize Device
-        mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-
-        // Tap Home Button of Android
-        mDevice.pressHome()
-
-        // Wait 5secs after Launching
-        val launcherPackage = mDevice.launcherPackageName
-        Log.d(msgTAG, "packageName=[$launcherPackage]")
-        MatcherAssert.assertThat(launcherPackage, IsNull.notNullValue())
-        mDevice.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), mLAUNCHTIMEOUT)
-
-        // Launch App
-        //val context = InstrumentationRegistry.getContext()
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        val intent = context.packageManager
-            .getLaunchIntentForPackage(packageName)
-        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        context.startActivity(intent)
-
-        // Wait for defined duration as mLAUNCHTIMEOUT
-        mDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), mLAUNCHTIMEOUT)
-
-        this.prepareScreenShot()
-    }
-*/
     fun setParamRemoveSuccessScreenShots(valToSet: Boolean) {
         this.paramRemoveSuccessScreenShots = valToSet
     }
@@ -143,7 +111,6 @@ class UiTestUtils {
         }
         File("${this.screenShotDir}/").walkTopDown().forEach {
             if(it.name.contains("${this.filePrefix}-.*.png$".toRegex())) {
-                //this.log_d(" [REMOVE] $it")
                 it.delete()
                 while (it.exists()) {
                     this.sleep("SHR")
@@ -151,17 +118,6 @@ class UiTestUtils {
             }
         }
         File("${this.screenShotDir}/").delete()
-/*
-        var count = 0
-        File("${this.screenShotDir}/").walkTopDown().forEach {
-            if (it.getName().contains("${this.filePrefix}-.*success.*png$".toRegex())) {
-                count += 1
-            }
-        }
-        if(count == 0 ) {
-
-        }
-*/
     }
 
     private fun findObjectPermission() {

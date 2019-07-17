@@ -39,7 +39,6 @@ class MainActivityInstrumentedTest {
 
     private val _packageName = "com.example.uitestsample"
     private var mUTs: UiTestUtils = UiTestUtils()
-    private lateinit var mDevice: UiDevice
 
     @Rule
     @JvmField
