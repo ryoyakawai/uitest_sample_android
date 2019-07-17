@@ -31,8 +31,6 @@ import kotlin.random.Random
 
 class UiTestUtils {
 
-    private val mLAUNCHTIMEOUT = 5000L
-
     private lateinit var mActivity: Activity
 
     private var screenShotCounter = 0
@@ -55,21 +53,7 @@ class UiTestUtils {
         this.mActivity = mActivity
     }
 
-    fun updateFilePrefix() {
-        this.filePrefix = randomString(10)
-    }
-
-    fun startTest() {
-        this.updateFilePrefix()
-        Log.d(msgTAG, "[Begin Test] 👉 ${this.filePrefix}")
-    }
-
-    fun setParamRemoveSuccessScreenShots(valToSet: Boolean) {
-        this.paramRemoveSuccessScreenShots = valToSet
-    }
-
     fun prepareScreenShot(removeScreenShot: Boolean = true) {
-
         this.setParamRemoveSuccessScreenShots(removeScreenShot)
 
         val packageName = mActivity.packageName
@@ -80,6 +64,14 @@ class UiTestUtils {
         this.screenShotDir = "$sdcard/uitest/$formatted-$packageName-${randomString(10)}"
         File(this.screenShotDir).mkdirs()
         Log.d(msgTAG, "📷 saveDirectory=[${this.screenShotDir}]")
+    }
+
+    private fun updateFilePrefix() {
+        this.filePrefix = randomString(10)
+    }
+
+    private fun setParamRemoveSuccessScreenShots(valToSet: Boolean) {
+        this.paramRemoveSuccessScreenShots = valToSet
     }
 
     private fun captureScreenshot(path: File) {
@@ -208,7 +200,6 @@ class UiTestUtils {
 }
 
 class ScreenshotTakingRule(mUTs: UiTestUtils) : TestWatcher() {
-
     private var mUTs = mUTs
 
     override fun failed(e: Throwable?, description: org.junit.runner.Description?) {
