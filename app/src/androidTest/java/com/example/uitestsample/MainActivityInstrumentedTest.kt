@@ -13,7 +13,6 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.rule.GrantPermissionRule
 import android.support.test.runner.AndroidJUnit4
-import android.support.test.uiautomator.UiDevice
 
 import com.example.uitestsample.uitestutils.ScreenshotTakingRule
 import com.example.uitestsample.uitestutils.UiTestUtils
@@ -38,15 +37,15 @@ import org.junit.runner.RunWith
 class MainActivityInstrumentedTest {
 
     private val _packageName = "com.example.uitestsample"
-    private var mUTs: UiTestUtils = UiTestUtils()
+    private val mUTs: UiTestUtils = UiTestUtils()
 
     @Rule
     @JvmField
-    var cGrantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    val cGrantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     @Rule
     @JvmField
-    var mActivityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
+    val mActivityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
 
     @Rule
     @JvmField
