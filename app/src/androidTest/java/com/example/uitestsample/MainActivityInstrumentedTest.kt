@@ -104,12 +104,12 @@ class MainActivityInstrumentedTest {
 
         for(i in 1..willTap) {
             // Tap increment button
-            mUTs.screenShot("", "BEFORE >>> カンター：インクリメント IDX=[$i]")
+            mUTs.screenShot("", "BEFORE >>> カウンター：インクリメント IDX=[$i]")
             onView(incrementButton).perform(click())
 
             mUTs.allowPermissionsIfNeeded()
 
-            mUTs.screenShot("", "AFTER >>> カンター：インクリメント IDX=[$i]")
+            mUTs.screenShot("", "AFTER >>> カウンター：インクリメント IDX=[$i]")
             actualCount = this.mUTs.getText(withId(R.id.main_content_text))
             this.mUTs.log_d("[Counter SEQ] 🍏🍎 expected=[$i] actual=[$actualCount]")
             assertEquals("[Counter SEQ] 🍏🍎", i.toString(), actualCount)
@@ -123,7 +123,7 @@ class MainActivityInstrumentedTest {
 
         //
         // To check whether reset counter button works properly
-        mUTs.screenShot("", "[BEFORE] カンターのリセット")
+        mUTs.screenShot("", "[BEFORE] カウンターのリセット")
         Espresso.openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
         this.mUTs.sleep("SHR")
         val menuButton = allOf(
@@ -132,7 +132,7 @@ class MainActivityInstrumentedTest {
                 isDisplayed())
         onView(menuButton).perform(click())
         this.mUTs.sleep("SHR")
-        mUTs.screenShot("", "[AFTER] カンターのリセット")
+        mUTs.screenShot("", "[AFTER] カウンターのリセット")
         actualCount = this.mUTs.getText(withId(R.id.main_content_text))
         this.mUTs.log_d("[Counter Clear] 🍏🍎🍐 expected=[0] actual=[$actualCount]")
         assertEquals("[Counter Clear] 🍏🍎🍐", actualCount, "0")
