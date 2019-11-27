@@ -39,5 +39,12 @@ $ ./gradlew test
 However, this way does not always easy for all of developers. So, to get more information about to run on CLI in detail please refer to this page depending on your interest.
 https://developer.android.com/studio/test/command-line
 
+### Run both Instrumented Test and Unit test, and get report
+```bash
+./gradlew jacocoDebugTestReport
+```
+
+Report will be stored in `./app/build/reports/` directory.
+
 # Lisence
 Apache License Version 2.0
