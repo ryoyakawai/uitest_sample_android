@@ -41,11 +41,13 @@ class MainActivityInstrumentedTest {
 
     @Rule
     @JvmField
-    val cGrantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    val cGrantPermissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     @Rule
     @JvmField
-    val mActivityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
+    val mActivityTestRule: ActivityTestRule<MainActivity> =
+        ActivityTestRule(MainActivity::class.java)
 
     @Rule
     @JvmField
