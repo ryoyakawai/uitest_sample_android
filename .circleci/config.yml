@@ -101,6 +101,9 @@ jobs:
             COMMIT_HASH=$(git log --format="%H" -n 1 | cut -c 1-8)
             USERNAME=ryoyakawai
             curl -F "file=@${APK_PATH}" -F "token=${DEPLOYGATE_API_KEY}" -F "message=Build by CircleCI <${COMMIT_HASH}> (${TIME})" https://deploygate.com/api/users/${USERNAME}/apps
+
+jobs:
+  build:
     docker:
       - image: 'circleci/openjdk:11-jdk'
     steps:
