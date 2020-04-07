@@ -8,9 +8,9 @@ jobs:
       # https://hub.docker.com/r/circleci/android/tags
       # https://circleci.com/docs/2.0/circleci-images/#android
       # [was] - image: circleci/android:api-28
-    branches:
-      only:
-        - master
+    #branches:
+    #  only:
+    #    - master
     resource_class: medium
     environment:
       JVM_OPTS: -Xmx5000m
