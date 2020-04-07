@@ -49,7 +49,7 @@ jobs:
       # >> [See more device info with this command] $ gcloud firebase test android models list;
       # >> [Aboud CLI] https://firebase.google.com/docs/test-lab/android/command-line
       # !!!!! NOTICE !!!!!
-      # MUST UPDATE Environment Variables >>> https://circleci.com/gh/fitom-project/fitom_Android/edit#env-vars
+      # MUST UPDATE Environment Variables
       # GCLOUD_SERVICE_KEY: base64 encoded key file of JSON format vriables
       # GOOGLE_PROJECT_ID: Cloud Testing API'ID
       # API REQUIRED TO BE ACTIVATED: Cloud Testing API, Cloud Tool Results API
