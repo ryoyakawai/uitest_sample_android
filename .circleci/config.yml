@@ -1,4 +1,5 @@
 version: 2
+
 jobs:
   build:
     working_directory: ~/code
@@ -97,3 +98,17 @@ jobs:
             COMMIT_HASH=$(git log --format="%H" -n 1 | cut -c 1-8)
             USERNAME=ryoyakawai
             curl -F "file=@${APK_PATH}" -F "token=${DEPLOYGATE_API_KEY}" -F "message=Build by CircleCI <${COMMIT_HASH}> (${TIME})" https://deploygate.com/api/users/${USERNAME}/apps
+  build:
+    docker:
+      - image: 'circleci/openjdk:11-jdk'
+    steps:
+      - checkout
+      - run:
+          name: Analyze on SonarCloud
+          command: gradle build sonarqube"
+
+workflows:
+  main:
+    jobs:
+      - build:
+          context: SonarCloud
