@@ -108,10 +108,10 @@ jobs:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: gradle build sonarqube"
+          command: "gradle build sonarqube"
 
 workflows:
-  version: 2
+  version: 2.1
   main:
     jobs:
       - build
