@@ -6,7 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 
 // jacoco
-apply plugin: 'jacoco-android'
+//apply plugin: 'jacoco-android'
+apply plugin: 'com.hiya.jacoco-android'
 jacoco {
   toolVersion = "0.8.4"
 }
@@ -30,7 +31,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.uitestsample"
-        minSdkVersion 26
+        minSdkVersion 27
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
