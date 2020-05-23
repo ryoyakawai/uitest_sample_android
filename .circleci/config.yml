@@ -39,7 +39,7 @@ jobs:
           name: Build apk
           command: |
             ./gradlew :app:assembleDebug
-            ./gradlew :app:assembleDebugAndroidTest
+            #./gradlew :app:assembleDebugAndroidTest
       - store_artifacts:
           path: ./app/build/outputs/apk/debug/app-debug.apk
           destination: /apks/app-debug.apk
