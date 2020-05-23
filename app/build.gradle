@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 
 // jacoco
-//apply plugin: 'jacoco-android'
+//apply plugin: 'jacoco-android' // original jacoco
 apply plugin: 'com.hiya.jacoco-android'
 jacoco {
   toolVersion = "0.8.4"
@@ -31,12 +31,11 @@ android {
 
     defaultConfig {
         applicationId "com.example.uitestsample"
-        minSdkVersion 27
+        minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
@@ -98,7 +97,11 @@ dependencies {
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0'
     androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
+}
+
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
 }
