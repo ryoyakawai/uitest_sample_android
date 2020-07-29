@@ -4,24 +4,6 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-
-// jacoco
-//apply plugin: 'jacoco-android' // original jacoco
-apply plugin: 'com.hiya.jacoco-android'
-jacoco {
-  toolVersion = "0.8.4"
-}
-tasks.withType(Test) {
-  jacoco.includeNoLocationClasses = true
-}
-jacocoAndroidUnitTestReport {
-  csv.enabled false
-  xml.enabled false
-  html.enabled true
-}
-// jacoco
-
-
 android {
     compileSdkVersion 28
 
@@ -105,3 +87,5 @@ dependencies {
 configurations.all {
     resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
 }
+
+apply from: 'jacoco.gradle'
